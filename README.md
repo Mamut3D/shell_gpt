@@ -1,6 +1,7 @@
 # ShellGPT
 
-> This is a fork of ShellGPT mainly for my personal use, it optimizes some cli parameters for easier use, mainly it by default uses 'tmp' chat
+
+> This is a fork of ShellGPT mainly for my personal use, it optimizes some cli parameters for easier use, mainly it by default uses 'tmp' chat.
 
 A command-line productivity tool powered by AI large language models (LLM). As developers, we can leverage AI capabilities to generate shell commands, code snippets, comments, and documentation, among other things. Forget about cheat sheets and notes, with this tool you can get accurate answers right in your terminal, and you'll probably find yourself reducing your daily Google searches, saving you valuable time and effort. ShellGPT is cross-platform compatible and supports all major operating systems, including Linux, macOS, and Windows with all major shells, such as PowerShell, CMD, Bash, Zsh, Fish, and many others.
 
@@ -8,7 +9,11 @@ https://user-images.githubusercontent.com/16740832/231569156-a3a9f9d4-18b1-4fff-
 
 ## Installation
 ```shell
-pip install shell-gpt
+pip install ./
+
+# To support quick gpt calls with `g what is xyz?` do
+cp scripts/g ~/bin/g
+chmod +x ~/bin/g
 ```
 You'll need an OpenAI API key, you can generate one [here](https://beta.openai.com/account/api-keys).
 

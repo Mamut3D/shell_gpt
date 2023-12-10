@@ -1,0 +1,12 @@
+#!/bin/bash
+# Hacky util to interact swiftly with sgpt without the need for apostrophes
+# Example: g weight of the sun
+# Note: If you start with -arguments, you will need to put PROMPT in apostrophes
+
+if [[ $1 == -* ]]; then
+  sgpt "$@"
+else
+  # If args don't start with hyphen, expect PROMPT
+  params="$@"
+  sgpt "$params"
+fi

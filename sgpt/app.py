@@ -66,14 +66,14 @@ def main(
         help="Cache completion results.",
     ),
     chat: str = typer.Option(
-        None,
+        "tmp",
         "--chat",
         "-c",
         help="Follow conversation with id, " 'use "temp" for quick session.',
         rich_help_panel="Chat Options",
     ),
-    repl: str = typer.Option(
-        None,
+    repl: bool = typer.Option(
+        False,
         "--interactive",
         "-i",
         help="Start a REPL (Read–eval–print loop) session.",
@@ -140,9 +140,6 @@ def main(
             "Only one of --shell, --describe-shell, and --code options can be used at a time."
         )
 
-    if chat and repl:
-        raise BadArgumentUsage("--chat and --repl options cannot be used together.")
-
     if editor and stdin_passed:
         raise BadArgumentUsage("--editor option cannot be used with stdin input.")
 
@@ -157,12 +154,12 @@ def main(
 
     if repl:
         # Will be in infinite loop here until user exits with Ctrl+C.
-        ReplHandler(repl, role_class).handle(
+        ReplHandler(chat, role_class).handle(
             prompt,
             model=model,
             temperature=temperature,
             top_probability=top_probability,
-            chat_id=repl,
+            chat_id=chat,
             caching=cache,
         )
 

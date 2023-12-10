@@ -101,6 +101,10 @@ class ChatHandler(Handler):
 
         self.validate()
 
+    def delete_chat(self, chat_id: str) -> None:
+        self.chat_session.invalidate(chat_id)
+        return True
+
     @classmethod
     def list_ids(cls, value: str) -> None:
         if not value:

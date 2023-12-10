@@ -39,14 +39,12 @@ def main(
     shell: bool = typer.Option(
         False,
         "--shell",
-        "-s",
         help="Generate and execute shell commands.",
         rich_help_panel="Assistance Options",
     ),
     describe_shell: bool = typer.Option(
         False,
         "--describe-shell",
-        "-d",
         help="Describe a shell command.",
         rich_help_panel="Assistance Options",
     ),
@@ -66,7 +64,7 @@ def main(
         help="Cache completion results.",
     ),
     chat: str = typer.Option(
-        "tmp",
+        "default",
         "--chat",
         "-c",
         help="Follow conversation with id, " 'use "temp" for quick session.',
@@ -76,15 +74,21 @@ def main(
         False,
         "--interactive",
         "-i",
-        help="Start a REPL (Read–eval–print loop) session.",
+        help="Start a REPL (Read–eval–print loop) session within chat id --chat/-c.",
         rich_help_panel="Chat Options",
     ),
-    show_chat: str = typer.Option(
-        None,
+    show_chat: bool = typer.Option(
+        False,
         "--show-chat",
-        "-a",
-        help="Show all messages from provided chat id.",
-        callback=ChatHandler.show_messages_callback,
+        "-s",
+        help="Show all messages from provided chat id --chat/-c.",
+        rich_help_panel="Chat Options",
+    ),
+    delete_chat: bool = typer.Option(
+        False,
+        "--delete-chat",
+        "-d",
+        help="Delete all messages from provided chat id --chat/-c.",
         rich_help_panel="Chat Options",
     ),
     list_chats: bool = typer.Option(
@@ -96,7 +100,7 @@ def main(
         rich_help_panel="Chat Options",
     ),
     role: str = typer.Option(
-        None,
+        "default",
         "--role",
         "-r",
         help="System role for GPT model.",
@@ -132,8 +136,6 @@ def main(
     if stdin_passed and not repl:
         prompt = f"{sys.stdin.read()}\n\n{prompt or ''}"
 
-    if not prompt and not editor and not repl:
-        raise MissingParameter(param_hint="PROMPT", param_type="string")
 
     if sum((shell, describe_shell, code)) > 1:
         raise BadArgumentUsage(
@@ -163,21 +165,23 @@ def main(
             caching=cache,
         )
 
+    if show_chat:
+        ChatHandler.show_messages_callback(chat)
+        exit()
+
+    if delete_chat:
+        ChatHandler(chat, role_class).delete_chat(chat)
+        exit()
+
     if chat:
+        if not prompt:
+            raise MissingParameter(param_hint="PROMPT", param_type="string")
         full_completion = ChatHandler(chat, role_class).handle(
             prompt,
             model=model,
             temperature=temperature,
             top_probability=top_probability,
             chat_id=chat,
-            caching=cache,
-        )
-    else:
-        full_completion = DefaultHandler(role_class).handle(
-            prompt,
-            model=model,
-            temperature=temperature,
-            top_probability=top_probability,
             caching=cache,
         )
 

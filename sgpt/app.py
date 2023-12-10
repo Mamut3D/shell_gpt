@@ -57,6 +57,8 @@ def main(
     ),
     editor: bool = typer.Option(
         False,
+        "--editor",
+        "-e",
         help="Open $EDITOR to provide a prompt.",
     ),
     cache: bool = typer.Option(
@@ -65,28 +67,38 @@ def main(
     ),
     chat: str = typer.Option(
         None,
+        "--chat",
+        "-c",
         help="Follow conversation with id, " 'use "temp" for quick session.',
         rich_help_panel="Chat Options",
     ),
     repl: str = typer.Option(
         None,
+        "--interactive",
+        "-i",
         help="Start a REPL (Read–eval–print loop) session.",
         rich_help_panel="Chat Options",
     ),
     show_chat: str = typer.Option(
         None,
+        "--show-chat",
+        "-a",
         help="Show all messages from provided chat id.",
         callback=ChatHandler.show_messages_callback,
         rich_help_panel="Chat Options",
     ),
     list_chats: bool = typer.Option(
         False,
+        "--list-chats",
+        "-l",
         help="List all existing chat ids.",
         callback=ChatHandler.list_ids,
         rich_help_panel="Chat Options",
     ),
     role: str = typer.Option(
         None,
+        "--role",
+        "-r",
         help="System role for GPT model.",
         rich_help_panel="Role Options",
     ),

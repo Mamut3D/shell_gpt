@@ -64,10 +64,10 @@ def main(
         help="Cache completion results.",
     ),
     chat_id: str = typer.Option(
-        "default",
+        "temp",
         "--chat-id",
         "--id",
-        help="Follow conversation with id, " 'use "temp" for quick session.',
+        help="Follow conversation with id, default id 'temp' is always cleaned up on new sgpt execution.",
         rich_help_panel="Chat Options",
     ),
     repl: bool = typer.Option(

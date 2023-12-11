@@ -77,10 +77,10 @@ def main(
         help="Start a REPL (Read–eval–print loop) session within chat id --chat-id/--id.",
         rich_help_panel="Chat Options",
     ),
-    show_chat: bool = typer.Option(
+    print_chat: bool = typer.Option(
         False,
-        "--show-chat",
-        "-s",
+        "--print-chat",
+        "-p",
         help="Show all messages from provided chat id --chat-id/--id.",
         rich_help_panel="Chat Options",
     ),
@@ -165,7 +165,7 @@ def main(
             caching=cache,
         )
 
-    if show_chat:
+    if print_chat:
         ChatHandler.show_messages_callback(chat_id)
         exit()
 

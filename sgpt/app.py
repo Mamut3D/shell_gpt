@@ -63,10 +63,10 @@ def main(
         True,
         help="Cache completion results.",
     ),
-    chat: str = typer.Option(
+    chat_id: str = typer.Option(
         "default",
-        "--chat",
-        "-c",
+        "--chat-id",
+        "--id",
         help="Follow conversation with id, " 'use "temp" for quick session.',
         rich_help_panel="Chat Options",
     ),
@@ -74,21 +74,21 @@ def main(
         False,
         "--interactive",
         "-i",
-        help="Start a REPL (Read–eval–print loop) session within chat id --chat/-c.",
+        help="Start a REPL (Read–eval–print loop) session within chat id --chat-id/--id.",
         rich_help_panel="Chat Options",
     ),
     show_chat: bool = typer.Option(
         False,
         "--show-chat",
         "-s",
-        help="Show all messages from provided chat id --chat/-c.",
+        help="Show all messages from provided chat id --chat-id/--id.",
         rich_help_panel="Chat Options",
     ),
     delete_chat: bool = typer.Option(
         False,
         "--delete-chat",
         "-d",
-        help="Delete all messages from provided chat id --chat/-c.",
+        help="Delete all messages from provided chat id --chat-id/--id.",
         rich_help_panel="Chat Options",
     ),
     list_chats: bool = typer.Option(
@@ -156,32 +156,32 @@ def main(
 
     if repl:
         # Will be in infinite loop here until user exits with Ctrl+C.
-        ReplHandler(chat, role_class).handle(
+        ReplHandler(chat_id, role_class).handle(
             prompt,
             model=model,
             temperature=temperature,
             top_probability=top_probability,
-            chat_id=chat,
+            chat_id=chat_id,
             caching=cache,
         )
 
     if show_chat:
-        ChatHandler.show_messages_callback(chat)
+        ChatHandler.show_messages_callback(chat_id)
         exit()
 
     if delete_chat:
-        ChatHandler(chat, role_class).delete_chat(chat)
+        ChatHandler(chat_id, role_class).delete_chat(chat_id)
         exit()
 
-    if chat:
+    if chat_id:
         if not prompt:
             raise MissingParameter(param_hint="PROMPT", param_type="string")
-        full_completion = ChatHandler(chat, role_class).handle(
+        full_completion = ChatHandler(chat_id, role_class).handle(
             prompt,
             model=model,
             temperature=temperature,
             top_probability=top_probability,
-            chat_id=chat,
+            chat_id=chat_id,
             caching=cache,
         )
 

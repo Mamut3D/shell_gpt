@@ -3,10 +3,15 @@
 # Example: g weight of the sun
 # Note: If you start with -arguments, you will need to put PROMPT in apostrophes
 
-if [[ $1 == -* ]]; then
+if [[ $1 == "-c" || $1 == "-s" || $1 == "--ds" ]]; then
+  # expect all other params to be PROMPT
+  params="${@:2}"
+  sgpt "$1" "$params"
+elif [[ $1 == -* ]]; then
+  # if there is parameter, pass arguments normally
   sgpt "$@"
 else
-  # If args don't start with hyphen, expect PROMPT
+  # If args don't start with hyphen or selected flags, expect PROMPT
   params="$@"
   sgpt "$params"
 fi

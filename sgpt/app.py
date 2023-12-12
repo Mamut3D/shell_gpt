@@ -11,7 +11,8 @@ from sgpt.handlers.chat_handler import ChatHandler
 from sgpt.handlers.default_handler import DefaultHandler
 from sgpt.handlers.repl_handler import ReplHandler
 from sgpt.role import DefaultRoles, SystemRole
-from sgpt.utils import get_edited_prompt, install_shell_integration, run_command
+from sgpt.utils import get_edited_prompt, install_shell_integration, run_command, copy_to_clipboard
+
 
 
 def main(
@@ -195,10 +196,23 @@ def main(
             caching=cache,
         )
 
+
+    if code:
+        option = typer.prompt(
+            text="[C]opy, [A]bort",
+            type=Choice(("c", "a"), case_sensitive=False),
+            default="a" ,
+            show_choices=False,
+            show_default=False,
+        )
+        if option in ("c"):
+            copy_to_clipboard(full_completion)
+            print("Command copied to clipboard!")
+
     while shell and not stdin_passed:
         option = typer.prompt(
-            text="[E]xecute, [D]escribe, [A]bort",
-            type=Choice(("e", "d", "a", "y"), case_sensitive=False),
+            text="[E]xecute, [C]opy, [D]escribe, [A]bort",
+            type=Choice(("e", "d", "a", "y", "c"), case_sensitive=False),
             default="e" if cfg.get("DEFAULT_EXECUTE_SHELL_CMD") == "true" else "a",
             show_choices=False,
             show_default=False,
@@ -206,6 +220,9 @@ def main(
         if option in ("e", "y"):
             # "y" option is for keeping compatibility with old version.
             run_command(full_completion)
+        if option in ("c"):
+            copy_to_clipboard(full_command)
+            print("Command copied to clipboard!")
         elif option == "d":
             DefaultHandler(DefaultRoles.DESCRIBE_SHELL.get_role()).handle(
                 full_completion,

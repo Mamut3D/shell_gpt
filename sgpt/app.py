@@ -221,7 +221,7 @@ def main(
             # "y" option is for keeping compatibility with old version.
             run_command(full_completion)
         if option in ("c"):
-            copy_to_clipboard(full_command)
+            copy_to_clipboard(full_completion)
             print("Command copied to clipboard!")
         elif option == "d":
             DefaultHandler(DefaultRoles.DESCRIBE_SHELL.get_role()).handle(

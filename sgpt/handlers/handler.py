@@ -9,7 +9,7 @@ from ..role import SystemRole
 
 
 class Handler:
-    def __init__(self, role: SystemRole) -> None:       
+    def __init__(self, role: SystemRole) -> None:
         if cfg.get("USE_AZURE_OPENAI") == "true":
             self.client = AzureOpenAIClient(
                 cfg.get("OPENAI_API_HOST"), cfg.get("OPENAI_API_KEY"), cfg.get("AZURE_OPENAI_DEPLOYMENT_NAME")

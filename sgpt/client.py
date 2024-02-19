@@ -142,7 +142,7 @@ class AzureOpenAIClient:
             endpoint,
             # Hide API key from Rich traceback.
             headers={
-                "Content-Type": "application/json",                
+                "Content-Type": "application/json",
                 "api-key": f"{self.__api_key}"
             },
             json=data,

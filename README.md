@@ -14,6 +14,9 @@ pip install ./
 # To support quick gpt calls with `g what is xyz?` do
 cp scripts/g ~/bin/g
 chmod +x ~/bin/g
+
+# Fast interactive mode
+g
 ```
 You'll need an OpenAI API key, you can generate one [here](https://beta.openai.com/account/api-keys).
 

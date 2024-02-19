@@ -3,7 +3,10 @@
 # Example: g weight of the sun
 # Note: If you start with -arguments, you will need to put PROMPT in apostrophes
 
-if [[ $1 == "-c" || $1 == "-s" || $1 == "--ds" ]]; then
+if [ 0 -eq 0 ]; then
+  # start interactive section immediately
+  sgpt -i
+elif [[ $1 == "-c" || $1 == "-s" || $1 == "--ds" ]]; then
   # expect all other params to be PROMPT
   params="${@:2}"
   sgpt "$1" "$params"

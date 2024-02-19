@@ -3,8 +3,11 @@
 # Example: g weight of the sun
 # Note: If you start with -arguments, you will need to put PROMPT in apostrophes
 
-if [ 0 -eq 0 ]; then
-  # start interactive section immediately
+# Use proxy in corp environments
+# export HTTPS_PROXY=<proxy-url>
+
+if [ "$#" -eq 0 ]; then
+  # start interactive section immediately on no args
   sgpt -i
 elif [[ $1 == "-c" || $1 == "-s" || $1 == "--ds" ]]; then
   # expect all other params to be PROMPT
